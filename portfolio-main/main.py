@@ -16,13 +16,16 @@ def process_form():
 
 @app.route('/submit', methods=['POST'])
 def feedback_form():
-    text = request.form['text']
-    email = request.form['email']
+    if request.method == 'POST':    
+        text = request.form['text']
+        email = request.form['email']
 
-    with open('feedback.txt', 'a') as f:
-        f.write(email + " " + text + "\n")
+        with open('feedback.txt', 'a') as f:
+            f.write(email + " " + text + "\n")
 
-    return redirect('/')
+        return render_template('feedback.html', email=email, text=text)
+    
+    return render_template('feedback.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
